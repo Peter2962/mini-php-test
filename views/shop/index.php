@@ -13,6 +13,7 @@
 				<tr>
 					<th scope="col">#</th>
 					<th scope="col">Name</th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -20,6 +21,9 @@
 					<tr>
 						<th scope="row"><?= $item['id'] ?></th>
 						<td><?= $item['name']; ?></td>
+						<td>
+							<a href="/shop/edit?id=<?= $item['id'] ?>" class='btn btn-primary mt-3'>Edit</a>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

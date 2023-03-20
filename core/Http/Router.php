@@ -23,6 +23,7 @@ class Router
 	public function watch()
 	{
 		$requestUri = $_SERVER['REQUEST_URI'];
+		$requestUri = strtok($requestUri, '?');
 		$accessedRequestMethodString = $_SERVER['REQUEST_METHOD'];
 		$getDefinedGroup = self::$definedRoutes[
 			$accessedRequestMethodString

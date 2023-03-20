@@ -32,4 +32,9 @@ class ShopController
 		header('Location: /shop');
 	}
 
+	public function showEditForm()
+	{
+		render('shop/edit.php');
+	}
+
 }
