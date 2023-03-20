@@ -10,7 +10,7 @@ class Model
 	
 	public $tableName = null;
 
-	private function cursor()
+	public function cursor()
 	{
 		$config = config('database');
 		$cursor = new mysqli(
