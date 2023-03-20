@@ -9,7 +9,12 @@ class ShopController
 
 	public function index()
 	{
-		render('shop/index.php');
+		$shop = new Shop();
+		$items = $shop->all();
+
+		render('shop/index.php', [
+			'items' => $items
+		]);
 	}
 
 	public function showCreateForm()
@@ -21,8 +26,10 @@ class ShopController
 	{
 		$shop = new Shop();
 		$shop->insert([
-			'name' => 'item01'
+			'name' => $_POST['name']
 		]);
+
+		header('Location: /shop');
 	}
 
 }

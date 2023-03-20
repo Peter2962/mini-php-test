@@ -5,7 +5,7 @@ namespace Core\Db;
 use mysqli;
 use Exception;
 
-abstract class Model
+class Model
 {
 	
 	public $tableName = null;
@@ -35,7 +35,7 @@ abstract class Model
 		}
 		$fieldNames = implode(',', array_keys($params));
 		$fieldValues = implode("', '", array_values($params));
-		$query = "INSERT INTO $this->tableName (". $fieldNames .") VALUES (". $fieldValues .")";
+		$query = "INSERT INTO $this->tableName (". $fieldNames .") VALUES ('". $fieldValues ."')";
 
 		if ($cursor->query($query)) {
 			return true;
@@ -54,9 +54,25 @@ abstract class Model
 
 	}
 
-	public function select()
+	public function select(Array $fields, $table = '')
 	{
+		$result = [];
+		$cursor = $this->cursor();
+		if (!$this->tableName) {
+			$this->tableName = $table;
+		}
 
+		$fields = implode(', ', $fields);
+		$query = "SELECT $fields FROM $this->tableName";
+		$commit = $cursor->query($query);
+		$result = $commit->fetch_all(MYSQLI_ASSOC);
+		$commit->free_result();
+		return $result;
+	}
+
+	public function all()
+	{
+		return $this->select(['*']);
 	}
 
 }
