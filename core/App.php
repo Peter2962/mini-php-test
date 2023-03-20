@@ -11,9 +11,11 @@ class App
 
 	public function setup()
 	{
-		$router = new Router($this->baseDir, $this->routesFile);
-		include $this->routesFile;
-		$router->watch();
+		if (php_sapi_name() != 'cli') {
+			$router = new Router($this->baseDir, $this->routesFile);
+			include $this->routesFile;
+			$router->watch();
+		}
 	}
 
 }
