@@ -13,7 +13,7 @@ class Setup
 		$model = new Model();
 		$cursor = $model->cursor();
 
-		$cursor->query('DROP TABLE shop');
+		$cursor->query('DROP TABLE IF EXISTS shop');
 		echo '- Dropped table: shop';
 
 		echo "\n";
