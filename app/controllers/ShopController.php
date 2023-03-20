@@ -34,7 +34,30 @@ class ShopController
 
 	public function showEditForm()
 	{
-		render('shop/edit.php');
+		$id = $_GET['id'];
+		$shop = new Shop();
+		$result = $shop->findOne(['id' => $id]);
+
+		$item = $result[0];
+
+		render('shop/edit.php', [
+			'item' => $item
+		]);
+	}
+
+	public function updateItem()
+	{
+		$shop = new Shop();
+		$shop->update(
+			[
+				'name' => $_POST['name']
+			],
+			[
+				'id' => $_POST['id']
+			]
+		);
+
+		header('Location: /shop');
 	}
 
 }

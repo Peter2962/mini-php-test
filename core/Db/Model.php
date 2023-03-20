@@ -44,9 +44,32 @@ class Model
 		throw new Exception($cursor->error);
 	}
 
-	public function update()
+	public function update(Array $fields, Array $where, $table = '')
 	{
+		$cursor = $this->cursor();
+		if (!$this->tableName) {
+			$this->tableName = $table;
+		}
 
+		$query = "UPDATE $this->tableName";
+
+		$set = [];
+		foreach($fields as $key => $value) {
+			$set[] = "$key = \"$value\"";
+		}
+
+		$whereQuery = [];
+		foreach($where as $key => $value) {
+			$whereQuery[] = "$key =$value";
+		}
+
+		$query .= " SET " . implode(',', $set) . ' WHERE ' . implode('AND ', $whereQuery);
+
+		if ($cursor->query($query)) {
+			return true;
+		}
+
+		throw new Exception($cursor->error);
 	}
 
 	public function delete()
@@ -54,7 +77,17 @@ class Model
 
 	}
 
-	public function select(Array $fields, $table = '')
+	public function findOne(Array $where)
+	{
+		$whereQuery = [];
+		foreach($where as $key => $value) {
+			$whereQuery[] = "$key = $value";
+		}
+
+		return $this->select(['*'], '', 'WHERE ' . implode('AND', $whereQuery). ' LIMIT 1');
+	}
+
+	public function select(Array $fields, $table = '', $additionalStatement = '')
 	{
 		$result = [];
 		$cursor = $this->cursor();
@@ -63,8 +96,13 @@ class Model
 		}
 
 		$fields = implode(', ', $fields);
-		$query = "SELECT $fields FROM $this->tableName";
+		$query = "SELECT $fields FROM $this->tableName $additionalStatement";
+
 		$commit = $cursor->query($query);
+		if (!$commit) {
+			echo $cursor->error;
+			exit;
+		}
 		$result = $commit->fetch_all(MYSQLI_ASSOC);
 		$commit->free_result();
 		return $result;

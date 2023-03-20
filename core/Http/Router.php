@@ -32,6 +32,7 @@ class Router
 		$accessedRequestMethod = match ($accessedRequestMethodString) {
 			'GET' => $_GET,
 			'POST' => $_POST,
+			'PUT' => $_PUT,
 			'DELETE' => $_DELETE,
 			default => 'GET',
 		};
