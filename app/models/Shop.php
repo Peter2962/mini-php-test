@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Shop
+use Core\Db\Model;
+
+class Shop extends Model
 {
-	
+	public $tableName = 'shop';
 }

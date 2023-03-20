@@ -9,21 +9,20 @@ class ShopController
 
 	public function index()
 	{
-		render('shop/index.php', [
-
-		]);
+		render('shop/index.php');
 	}
 
 	public function showCreateForm()
 	{
-		render('shop/create.php', [
-
-		]);
+		render('shop/create.php');
 	}
 
 	public function createItem()
 	{
-		
+		$shop = new Shop();
+		$shop->insert([
+			'name' => 'item01'
+		]);
 	}
 
 }

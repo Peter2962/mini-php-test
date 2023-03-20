@@ -2,6 +2,7 @@
 
 return [
 	'host' => 'localhost',
-	'username' => 'admin',
-	'password' => 'root'
+	'username' => 'root',
+	'password' => 'admin',
+	'database' => 'mini_framework'
 ];
