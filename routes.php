@@ -2,3 +2,4 @@
 
 $router->get('/shop', ['ShopController', 'index'], 'items.list');
 $router->get('/shop/create-item', ['ShopController', 'showCreateForm'], 'items.show-create-form');
+$router->post('/shop/create-item', ['ShopController', 'createItem'], 'items.create');

@@ -21,4 +21,9 @@ class ShopController
 		]);
 	}
 
+	public function createItem()
+	{
+		
+	}
+
 }

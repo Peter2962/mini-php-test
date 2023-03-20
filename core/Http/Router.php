@@ -58,6 +58,11 @@ class Router
 		$this->define($path, $action, $name, 'GET');
 	}
 
+	public function post($path, $action, $name)
+	{
+		$this->define($path, $action, $name, 'POST');
+	}
+
 	private function routeMatches($route, $uri)
 	{
 		$route['path'] = rtrim($route['path']);
@@ -94,7 +99,13 @@ class Router
 		$method = $route['action'][1];
 
 		$controllerClass = 'App\\Controllers\\' . $controller;
-		call_user_func([new $controllerClass, $method]);
+		$controllerClass = new $controllerClass;
+
+		if (!method_exists($controllerClass, $method)) {
+			throw new Exception($method . ' is not a valid controller method.');
+		}
+		
+		call_user_func([$controllerClass, $method]);
 	}
 
 	private function define($path, $action, $name, $method)
