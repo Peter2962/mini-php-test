@@ -7,7 +7,11 @@ use Exception;
 class Router
 {
 
-	private static $definedRoutes = [];
+	private static $definedRoutes = [
+		'GET' => [],
+		'POST' => [],
+		'DELETE' => []
+	];
 
 	public function __construct(private $baseDir, private $routesFile){}
 
@@ -45,6 +49,8 @@ class Router
 		if ($routeMatched) {
 			return $this->resolveRoute($matchedRoute);
 		}
+
+		throw new Exception('No route defined for ' . $requestUri);
 	}
 
 	public function get($path, $action, $name)
@@ -54,7 +60,6 @@ class Router
 
 	private function routeMatches($route, $uri)
 	{
-		echo '<pre>';
 		$route['path'] = rtrim($route['path']);
 		if ($uri == '/' && $route['path'] == $uri) {
 			return true;
@@ -72,18 +77,24 @@ class Router
 		// If we can't find the segment delimiter, then we have a static route.
 		if (!$segmentDelimiterPos) {
 			// static route detected
-			if (count(array_diff($routePathArray, $uriArray)) > 0) {
+			$routeDiff = array_diff($uriArray, $routePathArray);
+			if ($uriArray != $routePathArray) {
 				return false;
 			}
 
 			return true;
 		}
 
+		return false;
 	}
 
 	private function resolveRoute($route)
 	{
-		print_r($route);
+		$controller = $route['action'][0];
+		$method = $route['action'][1];
+
+		$controllerClass = 'App\\Controllers\\' . $controller;
+		call_user_func([new $controllerClass, $method]);
 	}
 
 	private function define($path, $action, $name, $method)
