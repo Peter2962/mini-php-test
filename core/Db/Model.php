@@ -10,11 +10,6 @@ abstract class Model
 	
 	public $tableName = null;
 
-	public function __construct()
-	{
-		
-	}
-
 	private function cursor()
 	{
 		$config = config('database');
